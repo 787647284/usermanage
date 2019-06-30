@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>注册页面</h1>
+        账号<input name="username" id="username" onblur="userverify()"/></br>
+        密码<input name="password" id="password"/></br>
+        昵称<input name="nickname" id="nickname"/></br>
+        邮箱<input name="email" id="email"  onblur="jsp()"/>
+        <input type="button"  value="发送验证码" onclick="send()"/><br/>
+        <input name="coco" id="coco" value="请输入验证码"    onfocus="if(this.value=='请输入验证码'){this.value=''}" />
+        <button onclick="add()" id="tj" >注册</button>
+<script src="/jquery/jquery-1.8.2.js"></script>
+    <script>
+        function userverify() {
+            var username = $("#username").val();
+            if (username === "") {
+
+                alert("用户名不能为空")
+            } else {
+                $.ajax({
+                    type: "get",  //post请求
+                    url: "/user/loginverify?username=" + username,
+                    success: function (message) {
+                        console.log(username);
+                        if (message) {
+                            alert("用户名可用")
+                        } else {
+                            alert("该用户已存在，请重新输入")
+                        }
+                    },
+                    error: function (message) {
+                        alert("回调失败")
+                        error(message);
+                    }
+                });
+            }
+        }
+        function jsp() {
+            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+            var obj = document.getElementById("email"); //要验证的对象
+            if(obj.value === ""){ //输入不能为空
+                alert("输入不能为空!");
+                $("#tj").attr("disabled","disabled")
+            }else if(!reg.test(obj.value)){ //正则验证不通过，格式不对
+                alert("邮箱格式错误!");
+                $("#tj").attr("disabled","disabled")
+            }else{
+                alert("通过！");
+                $("#tj").removeAttr("disabled")
+            }
+        }
+        function send() {
+            alert("成功")
+            var email=$("#email").val();
+            alert(email)
+            $.ajax({
+                type:"get",  //post请求
+                url:"/user/register?email="+email,
+                success:function(message){
+                    console.log(message);
+                    if(message>0){
+                        alert("ajax回调成功")
+                        $("#coco").val("发送成功")
+                    }else{
+                        $("#coco").val("请点击再次发送")
+                    }
+                },
+                error:function(message){
+                    alert("回调失败")
+                    error(message);
+                }
+            });
+        }
+        function add() {
+            var username=$("#username").val();
+            var password=$("#password").val();
+            var nickname=$("#nickname").val();
+            var email=$("#email").val();
+            var coco=$("#coco").val();
+            alert(username)
+            $.ajax({
+                type: "post",
+                url: "/user/adduser",
+                contentType: "application/json; charset=utf-8",
+                data:JSON.stringify(
+                    {
+                        "username":username,
+                        "password":password,
+                        "nickname":nickname,
+                        "email":email,
+                        "coco":coco
+                    }
+                ),
+                dataType: "json",
+                success: function (message) {
+                    if(message>0){
+                        alert("ajax回调成功")
+                        window.location.href="/user/tologon";
+                    }
+                },
+                error: function (message) {
+                    console.error(message);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

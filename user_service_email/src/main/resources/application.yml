@@ -1,0 +1,22 @@
+server:
+  port: 9999
+dubbo:
+  application:
+    name: email_service
+  registry:
+    address: zookeeper://192.168.225.188:2181
+  protocol:
+    #�����ṩ�ߵĶ˿ڣ�-1��ʾ���в���һ�����õĶ˿�
+    port: -1
+  consumer:
+    check: false
+spring:
+  mail:
+    #���÷��ͷ�Э��
+    protocol: smtp
+    #����smtp��������ַ
+    host: smtp.sina.cn
+    #���ͷ�������
+    username: verygoodwlk@sina.cn
+    #���ͷ�������
+    password: ken123456

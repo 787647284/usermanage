@@ -1,0 +1,18 @@
+server:
+  port: 9091
+spring:
+  datasource:
+    url: jdbc:mysql:///usermanage
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
+dubbo:
+  application:
+    name: user_service
+  registry:
+    address: zookeeper://192.168.225.188:2181
+  protocol:
+    #配置提供者的端口，-1表示自行查找一个可用的端口
+    port: -1
+  consumer:
+    check: false
