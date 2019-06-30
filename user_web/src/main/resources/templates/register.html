@@ -23,7 +23,7 @@
             } else {
                 $.ajax({
                     type: "get",  //post请求
-                    url: "/user/loginverify?username=" + username,
+                    url: "/register/loginverify?username=" + username,
                     success: function (message) {
                         console.log(username);
                         if (message) {
@@ -59,7 +59,7 @@
             alert(email)
             $.ajax({
                 type:"get",  //post请求
-                url:"/user/register?email="+email,
+                url:"/register/register?email="+email,
                 success:function(message){
                     console.log(message);
                     if(message>0){
@@ -84,7 +84,7 @@
             alert(username)
             $.ajax({
                 type: "post",
-                url: "/user/adduser",
+                url: "/register/adduser",
                 contentType: "application/json; charset=utf-8",
                 data:JSON.stringify(
                     {
@@ -99,7 +99,7 @@
                 success: function (message) {
                     if(message>0){
                         alert("ajax回调成功")
-                        window.location.href="/user/tologon";
+                        window.location.href="/register/tologon";
                     }
                 },
                 error: function (message) {
